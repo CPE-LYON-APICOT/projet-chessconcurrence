@@ -8,7 +8,7 @@ abstract class ChessGame {
     +end()
 }
 
-class Joueur extends ChessGame {
+class Joueur {
     -nom: String
     -couleur: String
     +Joueur()
@@ -18,7 +18,9 @@ class Joueur extends ChessGame {
     +setCouleur()
 }
 
-class Plateau extends ChessGame {
+
+
+class Plateau {
     -cases: Case
     +Plateau()
     +getCase()
@@ -26,7 +28,9 @@ class Plateau extends ChessGame {
 
 }
 
-abstract class Case extends Plateau {
+
+
+abstract class Case {
     -piece: Piece
     +Case()
     +getPiece()
@@ -34,8 +38,17 @@ abstract class Case extends Plateau {
 }
 
 
-abstract class Piece{
-
+abstract class Piece {
+    -couleur: String
+    -case: Case
+    -id: int
+    +Piece()
+    +getCouleur()
+    +setCouleur()
+    +getCase()
+    +setCase()
+    +getId()
+    +setId()
 }
 
 class Tour extends Piece {
@@ -61,4 +74,13 @@ class Reine extends Piece {
 class Pion extends Piece {
 
 }
+
+Interface Mouvement {
+    +move()
+}
+
+Joueur -o ChessGame
+Plateau -o ChessGame
+Piece -o Case
+Case -* Plateau
 @enduml
