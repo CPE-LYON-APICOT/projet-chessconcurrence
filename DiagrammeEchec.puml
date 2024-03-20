@@ -1,11 +1,45 @@
 @startuml
 
-abstract class Piece {
+abstract class ChessGame {
+    -plateau: Plateau
+    +ChessGame()
+    +start()
+    +move()
+    +end()
+}
+
+class Joueur extends ChessGame {
+    -nom: String
+    -couleur: String
+    +Joueur()
+    +getNom()
+    +setNom()
+    +getCouleur()
+    +setCouleur()
+}
+
+class Plateau extends ChessGame {
+    -cases: Case
+    +Plateau()
+    +getCase()
+    +setCase()
+
+}
+
+abstract class Case extends Plateau {
+    -piece: Piece
+    +Case()
+    +getPiece()
+    +setPiece()
+}
+
+
+abstract class Piece{
 
 }
 
 class Tour extends Piece {
-    
+
 }
 
 class Cavalier extends Piece {
@@ -25,10 +59,6 @@ class Reine extends Piece {
 }
 
 class Pion extends Piece {
-
-}
-
-class Plateau {
 
 }
 @enduml
