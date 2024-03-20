@@ -1,6 +1,9 @@
+import Models.Plateau;
+import Models.Position;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Plateau plateau = new Plateau();
+        plateau.afficherPlateau();
     }
 }

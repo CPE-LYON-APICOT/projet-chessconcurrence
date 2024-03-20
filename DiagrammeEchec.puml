@@ -20,8 +20,8 @@ class Joueur {
 
 
 
-class Plateau {
-    -cases: Case
+class Plateau{
+    -cases: Case[]
     +Plateau()
     +getCase()
     +setCase()
@@ -37,8 +37,7 @@ abstract class Case {
     +setPiece()
 }
 
-
-abstract class Piece {
+abstract class Piece implements Mouvement {
     -couleur: String
     -case: Case
     -id: int
@@ -76,8 +75,9 @@ class Pion extends Piece {
 }
 
 Interface Mouvement {
-    +move()
+    +isMouvementValide()
 }
+
 
 Joueur -o ChessGame
 Plateau -o ChessGame
