@@ -1,7 +1,7 @@
 package Models;
 
 import Interfaces.Mouvement;
-abstract class Piece implements Mouvement {
+public abstract class Piece implements Mouvement {
     private Case currentCase;
 
     private Couleur couleur;
