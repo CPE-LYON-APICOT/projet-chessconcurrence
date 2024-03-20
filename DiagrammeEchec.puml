@@ -1,0 +1,34 @@
+@startuml
+
+abstract class Piece {
+
+}
+
+class Tour extends Piece {
+    
+}
+
+class Cavalier extends Piece {
+
+}
+
+class Fou extends Piece {
+
+}
+
+class Roi extends Piece {
+
+}
+
+class Reine extends Piece {
+
+}
+
+class Pion extends Piece {
+
+}
+
+class Plateau {
+
+}
+@enduml
