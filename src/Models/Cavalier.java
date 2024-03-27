@@ -13,6 +13,27 @@ public class Cavalier extends Piece{
 
     @Override
     public boolean isMouvementValide(Plateau plateau, Case nouvelleCase) {
-        return false;
+        Case ancienneCase = this.getCurrentCase();
+
+        // Obtenir les coordonnées de la nouvelle case et de l'ancienne case
+        int ancienneX = ancienneCase.getX();
+        int ancienneY = ancienneCase.getY();
+        int nouvelleX = nouvelleCase.getX();
+        int nouvelleY = nouvelleCase.getY();
+
+        // Calculer le déplacement du cavalier
+        int deplacementX = Math.abs(nouvelleX - ancienneX);
+        int deplacementY = Math.abs(nouvelleY - ancienneY);
+
+        // Le déplacement est valide si le cavalier se déplace en L
+        if ((deplacementX == 2 && deplacementY == 1) || (deplacementX == 1 && deplacementY == 2)) {
+
+            // Vérifier si la case de destination est vide ou occupée par une pièce adverse
+            if (nouvelleCase.getPiece() == null || nouvelleCase.getPiece().getCouleur() != this.getCouleur()) {
+                return true; // Déplacement valide
+            }
+        }
+
+        return false; // Autres mouvements invalides
     }
 }

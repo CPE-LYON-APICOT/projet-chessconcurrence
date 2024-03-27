@@ -43,10 +43,10 @@ public class Pion extends Piece {
                 }
             }
 
-            return true; // Déplacement valide
+            return true;
         }
 
-        return false; // Autres mouvements invalides
+        return false;
     }
     public Case getCurrentCase() {
         return this.getCase();
