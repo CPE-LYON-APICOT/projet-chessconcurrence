@@ -10,7 +10,7 @@ public class Pion extends Piece {
         }
     }
     @Override
-    public boolean isMouvementValide(Case nouvelleCase) {
+    public boolean isMouvementValide(Plateau plateau, Case nouvelleCase) {
         Case ancienneCase = this.getCurrentCase();
 
         // Vérifier si la case de destination est vide
@@ -31,9 +31,21 @@ public class Pion extends Piece {
         // Le déplacement est valide si :
         // - Le pion avance d'une case vers l'avant
         // - Ou si c'est le premier coup, le pion peut avancer de deux cases vers l'avant
-        if ((deplacementX == 1 && deplacementY == 0) || ((ancienneX == 1 && this.getCouleur() == Couleur.BLANC || ancienneX == 6 && this.getCouleur() == Couleur.NOIR) && deplacementX == 2 && deplacementY == 0)) {
+        if ((deplacementX == 1 && deplacementY == 0) ||
+                ((ancienneX == 1 && this.getCouleur() == Couleur.BLANC || ancienneX == 6 && this.getCouleur() == Couleur.NOIR) && deplacementX == 2 && deplacementY == 0)) {
+
+            // Vérifier si une case est occupée juste devant si le pion avance de deux cases
+            if (deplacementX == 2) {
+                int pasX = ancienneX < nouvelleX ? 1 : -1;
+                Case caseDevant = plateau.getCase(ancienneX + pasX, ancienneY);
+                if (caseDevant.getPiece() != null) {
+                    return false; // Case occupée juste devant, déplacement invalide
+                }
+            }
+
             return true; // Déplacement valide
         }
+
         return false; // Autres mouvements invalides
     }
     public Case getCurrentCase() {

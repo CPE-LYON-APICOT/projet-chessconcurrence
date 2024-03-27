@@ -15,7 +15,7 @@ public class Main {
         Pion pionADeplacer = (Pion) plateau.getCase(1, 0).getPiece();
 
         // Déplacer le pion vers une nouvelle case (par exemple, avancer d'une case)
-        Case nouvelleCase = plateau.getCase(4, 0);
+        Case nouvelleCase = plateau.getCase(3, 0);
 
         // Tester le déplacement du pion en utilisant la fonction de votre contrôleur
         boolean deplacementReussi = ControllerPion.deplacerPion(plateau, pionADeplacer, nouvelleCase);

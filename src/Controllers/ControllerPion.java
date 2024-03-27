@@ -7,7 +7,7 @@ import Models.Plateau;
 public class ControllerPion {
     public static boolean deplacerPion(Plateau plateau, Pion pion, Case nouvelleCase) {
         // Vérifier si le mouvement est valide
-        if (pion.isMouvementValide(nouvelleCase)) {
+        if (pion.isMouvementValide(plateau, nouvelleCase)) {
             // Vérifier si la case de destination est vide
             if (nouvelleCase.getPiece() == null) {
                 // Déplacer le pion vers la nouvelle case

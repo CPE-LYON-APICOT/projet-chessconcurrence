@@ -12,7 +12,7 @@ public class Reine extends Piece {
     }
 
     @Override
-    public boolean isMouvementValide(Case nouvelleCase) {
+    public boolean isMouvementValide(Plateau plateau,Case nouvelleCase) {
         return false;
     }
 }
