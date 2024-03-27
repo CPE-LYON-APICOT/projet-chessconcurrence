@@ -12,7 +12,7 @@ public class Tour extends Piece {
     }
 
     @Override
-    public boolean isMouvementValide() {
+    public boolean isMouvementValide(Case nouvelleCase) {
         return false;
     }
 }

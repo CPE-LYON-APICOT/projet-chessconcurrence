@@ -14,7 +14,7 @@ public class Plateau {
         // Initialisation des cases vides
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                cases[i][j] = new Case();
+                cases[i][j] = new Case(i,j);
             }
         }
 
@@ -59,8 +59,6 @@ public class Plateau {
             System.out.println();
         }
     }
-
-
 
     public Case getCase(int x, int y) {
         return cases[x][y];

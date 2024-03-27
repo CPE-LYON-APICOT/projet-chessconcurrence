@@ -1,6 +1,9 @@
 package Models;
 
 import Interfaces.Mouvement;
+
+import javax.swing.*;
+
 public abstract class Piece implements Mouvement {
     private Case currentCase;
 
@@ -26,5 +29,9 @@ public abstract class Piece implements Mouvement {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    protected Couleur getCouleur() {
+        return couleur;
     }
 }

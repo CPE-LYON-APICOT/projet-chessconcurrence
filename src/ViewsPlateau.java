@@ -40,6 +40,4 @@ public class ViewsPlateau extends JFrame {
             }
         }
     }
-
-
 }

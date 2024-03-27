@@ -1,10 +1,22 @@
 package Models;
 
 public class Case {
+    private int x;
+    private int y;
     private Piece piece;
 
-    public Case() {
+    public Case(int x, int y) {
+        this.x = x;
+        this.y = y;
         this.piece = null;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     public Piece getPiece() {
