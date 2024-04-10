@@ -10,6 +10,8 @@ public abstract class Piece implements Mouvement {
     private Couleur couleur;
     private int id;
 
+    private boolean moved;
+
     @Override
     public boolean isMouvementValide(Plateau plateau, Case nouvelleCase) {
         Case ancienneCase = this.getCurrentCase();
@@ -36,6 +38,7 @@ public abstract class Piece implements Mouvement {
         this.couleur = couleur;
         this.currentCase = currentCase;
         this.id = id;
+        this.moved = false;
     }
     public Case getCase() {
         return currentCase;
@@ -67,5 +70,10 @@ public abstract class Piece implements Mouvement {
 
     public Boolean getType() {
         return this instanceof Pion;
+    }
+
+    // Méthode pour vérifier si la pièce a bougé
+    protected boolean hasMoved() {
+        return moved;
     }
 }

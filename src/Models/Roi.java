@@ -1,5 +1,7 @@
 package Models;
 
+import Controllers.ControllerPiece;
+
 public class Roi extends Piece{
     public Roi(Couleur couleur, Case currentCase) {
         super(couleur, currentCase, 0);
@@ -43,5 +45,36 @@ public class Roi extends Piece{
         }
 
         return false;
+    }
+
+    public boolean isPetitRoqueValide(Plateau plateau, Case tourCase) {
+        // Vérifier si le roi n'a pas encore bougé
+        if (!this.hasMoved() && !plateau.isChecked(this.getCouleur())) {
+            // Vérifier si la tour est à droite du roi et n'a pas bougé
+            if (tourCase.getX() > this.getCurrentCase().getX() && !tourCase.getPiece().hasMoved()) {
+                // Vérifier si les cases entre le roi et la tour sont vides
+                for (int x = this.getCurrentCase().getX() + 1; x < tourCase.getX(); x++) {
+                    if (plateau.getCase(x, this.getCurrentCase().getY()).getPiece() != null) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private int getMoveCount() {
+        return 0;
+    }
+
+    public void petitRoque(Plateau plateau, Case tourCase) {
+        // Déplacer le roi vers la tour
+        Case destinationRoi = plateau.getCase(this.getCurrentCase().getX() + 2, this.getCurrentCase().getY());
+        ControllerPiece.deplacerPiece(plateau, this, destinationRoi);
+
+        // Déplacer la tour à côté du roi
+        Case destinationTour = plateau.getCase(this.getCurrentCase().getX() + 1, this.getCurrentCase().getY());
+        ControllerPiece.deplacerPiece(plateau, tourCase.getPiece(), destinationTour);
     }
 }

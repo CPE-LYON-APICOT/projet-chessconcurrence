@@ -20,12 +20,12 @@ public class Plateau {
 
         // Initialisation des pièces pour les joueurs blancs
         cases[0][0].setPiece(new Tour(Couleur.BLANC, cases[0][0]));
-        cases[0][1].setPiece(new Cavalier(Couleur.BLANC, cases[0][1]));
-        cases[0][2].setPiece(new Fou(Couleur.BLANC, cases[0][2]));
+        //cases[0][1].setPiece(new Cavalier(Couleur.BLANC, cases[0][1]));
+        //cases[0][2].setPiece(new Fou(Couleur.BLANC, cases[0][2]));
         cases[0][3].setPiece(new Reine(Couleur.BLANC, cases[0][3]));
         cases[0][4].setPiece(new Roi(Couleur.BLANC, cases[0][4]));
-        cases[0][5].setPiece(new Fou(Couleur.BLANC, cases[0][5]));
-        cases[0][6].setPiece(new Cavalier(Couleur.BLANC, cases[0][6]));
+        //cases[0][5].setPiece(new Fou(Couleur.BLANC, cases[0][5]));
+        //cases[0][6].setPiece(new Cavalier(Couleur.BLANC, cases[0][6]));
         cases[0][7].setPiece(new Tour(Couleur.BLANC, cases[0][7]));
         //cases[4][3].setPiece(new Roi(Couleur.BLANC, cases[4][3]));
         //cases[2][2].setPiece(new Tour(Couleur.NOIR, cases[2][2]));
@@ -68,5 +68,32 @@ public class Plateau {
 
     public void setCase(int x, int y, Case c) {
         cases[x][y] = c;
+    }
+
+    public boolean isChecked(Couleur couleur) {
+        // Trouver la case du roi
+        Case roiCase = null;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (cases[i][j].getPiece() instanceof Roi && cases[i][j].getPiece().getCouleur() == couleur) {
+                    roiCase = cases[i][j];
+                    break;
+                }
+            }
+        }
+
+        // Vérifier si le roi est menacé par une pièce adverse
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Case c = cases[i][j];
+                if (c.getPiece() != null && c.getPiece().getCouleur() != couleur) {
+                    if (c.getPiece().isMouvementValide(this, roiCase)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }
