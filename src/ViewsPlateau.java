@@ -1,8 +1,5 @@
-import Controllers.ControllerPion;
-import Models.Case;
-import Models.Piece;
-import Models.Pion;
-import Models.Plateau;
+import Controllers.ControllerPiece;
+import Models.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +10,7 @@ import java.util.ArrayList;
 public class ViewsPlateau extends JFrame {
     private JPanel mainPanel;
     private JButton[][] squares;
-
-    private Pion pionSelectionne;
+    private Piece pieceSelectionnee;
     private Plateau plateau;
     private ArrayList<Case> casesPossibles;
 
@@ -47,27 +43,26 @@ public class ViewsPlateau extends JFrame {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        if (pionSelectionne != null) {
-                            // Si un pion est sélectionné, vérifie si la case cliquée est une case possible
+                        Case clickedCase = plateau.getCase(finalX, finalY);
+                        Piece piece = clickedCase.getPiece();
+
+                        if (piece != null) {
+
+                                pieceSelectionnee = piece;
+                                highlightPossibleMoves(pieceSelectionnee);
+                        } else if (pieceSelectionnee != null) {
+                            // Si une pièce est déjà sélectionnée et que la case cliquée est vide
                             Case nouvelleCase = plateau.getCase(finalX, finalY);
                             if (casesPossibles.contains(nouvelleCase)) {
-                                // Déplace le pion vers la nouvelle case
-                                boolean deplacementReussi = ControllerPion.deplacerPion(plateau, pionSelectionne, nouvelleCase);
+                                // Déplacer la pièce sélectionnée vers la nouvelle case
+                                boolean deplacementReussi = ControllerPiece.deplacerPiece(plateau, pieceSelectionnee, nouvelleCase);
                                 if (deplacementReussi) {
                                     updateBoard(plateau);
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Déplacement invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
                                 }
                                 resetHighlightedCases();
-                            }
-                        } else {
-                            // Si aucun pion n'est sélectionné, vérifie si la case cliquée contient un pion
-                            Case currentCase = plateau.getCase(finalX, finalY); // Utiliser 'finalX' à la place de 'x'
-                            Piece piece = currentCase.getPiece();
-                            if (piece instanceof Pion) {
-                                Pion pion = (Pion) piece;
-                                pionSelectionne = pion;
-                                highlightPossibleMoves(pion);
+                                pieceSelectionnee = null;
                             }
                         }
                     }
@@ -75,21 +70,20 @@ public class ViewsPlateau extends JFrame {
             }
         }
 
-
         add(mainPanel);
         setVisible(true);
     }
 
-    // Méthode pour mettre en évidence visuellement les cases possibles pour un pion sélectionné
-    private void highlightPossibleMoves(Pion pion) {
+    // Méthode pour mettre en évidence visuellement les cases possibles pour une pièce sélectionnée
+    private void highlightPossibleMoves(Piece piece) {
         // Réinitialiser les cases mises en évidence
         resetHighlightedCases();
 
-        Case ancienneCase = pion.getCurrentCase();
+        Case ancienneCase = piece.getCurrentCase();
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Case nouvelleCase = plateau.getCase(x, y);
-                if (pion.isMouvementValide(plateau, nouvelleCase)) {
+                if (piece.isMouvementValide(plateau, nouvelleCase)) {
                     // Mettre en évidence la case possible
                     squares[x][y].setBackground(Color.YELLOW);
                     casesPossibles.add(nouvelleCase);
