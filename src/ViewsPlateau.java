@@ -13,6 +13,7 @@ public class ViewsPlateau extends JFrame {
     private Piece pieceSelectionnee;
     private Plateau plateau;
     private ArrayList<Case> casesPossibles;
+    private boolean tourBlanc = true; // True si c'est le tour des blancs, false sinon
 
     public ViewsPlateau(Plateau plateau) {
         this.plateau = plateau;
@@ -46,10 +47,10 @@ public class ViewsPlateau extends JFrame {
                         Case clickedCase = plateau.getCase(finalX, finalY);
                         Piece piece = clickedCase.getPiece();
 
-                        if (piece != null) {
-
-                                pieceSelectionnee = piece;
-                                highlightPossibleMoves(pieceSelectionnee);
+                        if (piece != null && ((tourBlanc && piece.getCouleur() == Couleur.BLANC) || (!tourBlanc && piece.getCouleur() == Couleur.NOIR))) {
+                            // Si la pièce cliquée appartient au joueur actuel et c'est son tour
+                            pieceSelectionnee = piece;
+                            highlightPossibleMoves(pieceSelectionnee);
                         } else if (pieceSelectionnee != null) {
                             // Si une pièce est déjà sélectionnée et que la case cliquée est vide
                             Case nouvelleCase = plateau.getCase(finalX, finalY);
@@ -58,6 +59,7 @@ public class ViewsPlateau extends JFrame {
                                 boolean deplacementReussi = ControllerPiece.deplacerPiece(plateau, pieceSelectionnee, nouvelleCase);
                                 if (deplacementReussi) {
                                     updateBoard(plateau);
+                                    tourBlanc = !tourBlanc; // Changer de tour après un déplacement réussi
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Déplacement invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
                                 }
