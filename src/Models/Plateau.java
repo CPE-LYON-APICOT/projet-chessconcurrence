@@ -28,7 +28,7 @@ public class Plateau {
         cases[0][6].setPiece(new Cavalier(Couleur.BLANC, cases[0][6]));
         cases[0][7].setPiece(new Tour(Couleur.BLANC, cases[0][7]));
         //cases[4][3].setPiece(new Roi(Couleur.BLANC, cases[4][3]));
-        cases[2][2].setPiece(new Tour(Couleur.NOIR, cases[2][2]));
+        //cases[2][2].setPiece(new Tour(Couleur.NOIR, cases[2][2]));
         // Initialisation des pions pour les joueurs blancs
         for (int i = 0; i < 8; i++) {
             cases[1][i].setPiece(new Pion(Couleur.BLANC, cases[1][i]));

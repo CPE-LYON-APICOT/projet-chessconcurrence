@@ -12,7 +12,7 @@ public class Reine extends Piece {
     }
 
     @Override
-    public boolean isMouvementValide(Plateau plateau,Case nouvelleCase) {
+    public boolean isMouvementValide(Plateau plateau, Case nouvelleCase) {
         Case ancienneCase = this.getCurrentCase();
 
         // Obtenir les coordonnées de la nouvelle case et de l'ancienne case
@@ -31,11 +31,24 @@ public class Reine extends Piece {
 
             // Vérifier si la case de destination est vide ou occupée par une pièce adverse
             if (nouvelleCase.getPiece() == null || nouvelleCase.getPiece().getCouleur() != this.getCouleur()) {
+                // Vérifier si le chemin est libre
+                int pasX = nouvelleX > ancienneX ? 1 : nouvelleX < ancienneX ? -1 : 0;
+                int pasY = nouvelleY > ancienneY ? 1 : nouvelleY < ancienneY ? -1 : 0;
+
+                int x = ancienneX + pasX;
+                int y = ancienneY + pasY;
+
+                while (x != nouvelleX || y != nouvelleY) {
+                    if (plateau.getCase(x, y).getPiece() != null) {
+                        return false; // Il y a une pièce sur le chemin, le mouvement est invalide
+                    }
+                    x += pasX;
+                    y += pasY;
+                }
                 return true; // Déplacement valide
             }
         }
 
         return false; // Autres mouvements invalides
-
     }
 }
