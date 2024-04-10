@@ -53,7 +53,7 @@ public abstract class Piece implements Mouvement {
         this.id = id;
     }
 
-    protected Couleur getCouleur() {
+    public Couleur getCouleur() {
         return couleur;
     }
 
@@ -63,5 +63,9 @@ public abstract class Piece implements Mouvement {
 
     public void setCurrentCase(Case nouvelleCase) {
         this.currentCase = nouvelleCase;
+    }
+
+    public Boolean getType() {
+        return this instanceof Pion;
     }
 }

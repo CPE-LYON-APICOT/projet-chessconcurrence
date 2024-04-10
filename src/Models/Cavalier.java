@@ -31,6 +31,12 @@ public class Cavalier extends Piece{
             // Vérifier si la case de destination est vide ou occupée par une pièce adverse
             if (nouvelleCase.getPiece() == null || nouvelleCase.getPiece().getCouleur() != this.getCouleur()) {
                 return true; // Déplacement valide
+            } else if (nouvelleCase.getPiece() instanceof Roi && nouvelleCase.getPiece().getCouleur() != this.getCouleur()) {
+                // Si la pièce sur la case de destination est un roi adverse, le déplacement est invalide
+                return false;
+            } else {
+                // Si la case contient une pièce adverse autre qu'un roi, le déplacement est valide
+                return true;
             }
         }
 
