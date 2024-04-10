@@ -26,9 +26,9 @@ public class Pion extends Piece {
         // Vérifier la direction du déplacement en fonction de la couleur du pion
         int direction;
         if (this.getCouleur() == Couleur.BLANC) {
-            direction = 1; // Les pions blancs avancent vers le bas de l'échiquier
+            direction = -1; // Les pions blancs avancent vers le haut de l'échiquier
         } else {
-            direction = -1; // Les pions noirs avancent vers le haut de l'échiquier
+            direction = 1; // Les pions noirs avancent vers le bas de l'échiquier
         }
 
         // Le déplacement est valide si :
@@ -46,7 +46,7 @@ public class Pion extends Piece {
         }
 
         // Condition spéciale pour le premier déplacement
-        if ((ancienneX == 1 && this.getCouleur() == Couleur.BLANC || ancienneX == 6 && this.getCouleur() == Couleur.NOIR) && (nouvelleX - ancienneX == 2 * direction) && deplacementY == 0 && nouvelleCase.getPiece() == null) {
+        if ((ancienneX == 1 && this.getCouleur() == Couleur.NOIR || ancienneX == 6 && this.getCouleur() == Couleur.BLANC) && (nouvelleX - ancienneX == 2 * direction) && deplacementY == 0 && nouvelleCase.getPiece() == null) {
             // Vérifier si une case est occupée juste devant si le pion avance de deux cases
             Case caseDevant = plateau.getCase(ancienneX + direction, ancienneY);
             if (caseDevant.getPiece() != null) {
