@@ -38,10 +38,10 @@ public class Roi extends Piece{
 
             // Vérifier si la case de destination est vide ou occupée par une pièce adverse
             if (nouvelleCase.getPiece() == null || nouvelleCase.getPiece().getCouleur() != this.getCouleur()) {
-                return true; // Déplacement valide
+                return true;
             }
         }
 
-        return false; // Autres mouvements invalides
+        return false;
     }
 }
