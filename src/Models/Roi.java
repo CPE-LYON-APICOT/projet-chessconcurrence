@@ -34,47 +34,57 @@ public class Roi extends Piece{
         int deplacementX = Math.abs(nouvelleX - ancienneX);
         int deplacementY = Math.abs(nouvelleY - ancienneY);
 
-        // Le déplacement est valide si le roi se déplace d'une seule case dans n'importe quelle direction
-        if ((deplacementX == 1 && deplacementY == 0) || (deplacementX == 0 && deplacementY == 1) ||
-                (deplacementX == 1 && deplacementY == 1)) {
+        boolean isRoqueLong = estRoqueLong(plateau, nouvelleCase);
+        boolean isRoqueCourt = estRoqueCourt(plateau, nouvelleCase);
 
-            // Vérifier si la case de destination est vide ou occupée par une pièce adverse
-            if (nouvelleCase.getPiece() == null || nouvelleCase.getPiece().getCouleur() != this.getCouleur()) {
-                return true;
-            }
+        if (isRoqueLong) {
+            Case roiCase = this.getCurrentCase();
+            Case tourCase = plateau.getCase(7, 7);
+            tourCase.setPiece(null);
+            Case nouvelleTourCase = plateau.getCase(7, 4);
+            nouvelleTourCase.setPiece(new Tour(this.getCouleur(), nouvelleTourCase));
+            System.out.println("Roque long");
+            return (deplacementY >= 1 && deplacementY <= 2 && deplacementX == 0);
         }
-
-        return false;
-    }
-
-    public boolean isPetitRoqueValide(Plateau plateau, Case tourCase) {
-        // Vérifier si le roi n'a pas encore bougé
-        if (!this.hasMoved() && !plateau.isChecked(this.getCouleur())) {
-            // Vérifier si la tour est à droite du roi et n'a pas bougé
-            if (tourCase.getX() > this.getCurrentCase().getX() && !tourCase.getPiece().hasMoved()) {
-                // Vérifier si les cases entre le roi et la tour sont vides
-                for (int x = this.getCurrentCase().getX() + 1; x < tourCase.getX(); x++) {
-                    if (plateau.getCase(x, this.getCurrentCase().getY()).getPiece() != null) {
-                        return false;
-                    }
+        else if (isRoqueCourt) {
+            Case tourCase = plateau.getCase(7, 0);
+            tourCase.setPiece(null);
+            Case nouvelleTourCase = plateau.getCase(7, 2);
+            nouvelleTourCase.setPiece(new Tour(this.getCouleur(), nouvelleTourCase));
+            System.out.println("Roque court");
+            return (deplacementY >= 1 && deplacementY <= 2 && deplacementX == 0);
+        }
+        else {
+            // Le déplacement est valide si le roi se déplace d'une seule case dans n'importe quelle direction
+            if ((deplacementX == 1 && deplacementY == 0) || (deplacementX == 0 && deplacementY == 1) ||
+                    (deplacementX == 1 && deplacementY == 1)) {
+                // Vérifier si la case de destination est vide ou occupée par une pièce adverse
+                if (nouvelleCase.getPiece() == null || nouvelleCase.getPiece().getCouleur() != this.getCouleur()) {
+                    return true;
                 }
-                return true;
             }
+
+            return false;
         }
+    }
+
+    private boolean estRoqueLong(Plateau plateau, Case nouvelleCase) {
+        // Vérifie si le roi est à sa position initiale
+
+        Case roiCase = plateau.getCase(7, 3);
+        if (roiCase.getPiece() != null) {
+            return true;
+
+        }
+
         return false;
     }
 
-    private int getMoveCount() {
-        return 0;
+
+    private boolean estRoqueCourt(Plateau plateau, Case nouvelleCase) {
+        return false;
+
     }
 
-    public void petitRoque(Plateau plateau, Case tourCase) {
-        // Déplacer le roi vers la tour
-        Case destinationRoi = plateau.getCase(this.getCurrentCase().getX() + 2, this.getCurrentCase().getY());
-        ControllerPiece.deplacerPiece(plateau, this, destinationRoi);
-
-        // Déplacer la tour à côté du roi
-        Case destinationTour = plateau.getCase(this.getCurrentCase().getX() + 1, this.getCurrentCase().getY());
-        ControllerPiece.deplacerPiece(plateau, tourCase.getPiece(), destinationTour);
-    }
 }
+
