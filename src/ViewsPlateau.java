@@ -29,8 +29,6 @@ public class ViewsPlateau extends JFrame {
         this.plateau = plateau;
         this.casesPossibles = new ArrayList<>();
 
-
-
         setTitle("Chess Board");
         setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,9 +58,6 @@ public class ViewsPlateau extends JFrame {
                         int xCurent = 0;
                         Case clickedCase = plateau.getCase(finalX, finalY);
 
-                        System.out.println("feere "+finalX);
-                        System.out.println("ferer "+finalY);
-
                         xFutur = finalX;
                         yFutur = finalY;
 
@@ -75,21 +70,17 @@ public class ViewsPlateau extends JFrame {
                         } else if (pieceSelectionnee != null) {
                             // Si une pièce est déjà sélectionnée et que la case cliquée est vide
                             Case nouvelleCase = plateau.getCase(finalX, finalY);
-                            System.out.println("test "+finalX);
-                            System.out.println("test "+finalY);
                             if (casesPossibles.contains(nouvelleCase)) {
                                 // Déplacer la pièce sélectionnée vers la nouvelle case
                                 xCurent = pieceSelectionnee.getCurrentCase().getX();
                                 boolean deplacementReussi = ControllerPiece.deplacerPiece(plateau, pieceSelectionnee, nouvelleCase);
                                 if (deplacementReussi) {
-
-
-
-
                                     if (temp == 1) {
                                         System.out.println("Piece : "+finalX);
                                         System.out.println("Piece : "+finalY);
-                                        plateau.getCase(finalX +1 , finalY).setPiece(null);
+                                        Case casePriseEnPassant = plateau.getCase(2, 0);
+                                        casePriseEnPassant.setPiece(null);
+                                        plateau.getCase(1, 2).setPiece(null);
                                         Case passantCase = plateau.getCase(xtemp, ytemp);
                                         Piece passantPiece = passantCase.getPiece();
                                         Pion passantPion = (Pion) passantPiece;
@@ -106,7 +97,6 @@ public class ViewsPlateau extends JFrame {
                                             temp = 1;
                                             ytemp = pion.getCurrentCase().getY();
                                             xtemp = pion.getCurrentCase().getX();
-                                            System.out.println("Pion en passant");
                                             pion.setDernierDeplacementDouble(true);
                                         }
                                     }
@@ -157,28 +147,24 @@ public class ViewsPlateau extends JFrame {
     }
 
     // Méthode pour mettre à jour l'affichage du plateau
-    // Méthode pour mettre à jour l'affichage du plateau
     public void updateBoard(Plateau plateau) {
-
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Case currentCase = plateau.getCase(x, y);
-                if (plateau.getCase(x, y).getPiece() != null)  {
-
-                        // Sinon, afficher l'icône normalement
+                if (currentCase.getPiece() != null) {
                     String couleur = currentCase.getPiece().getCouleur() == Couleur.BLANC ? "Blanc" : "Noir";
                     String typePiece = currentCase.getPiece().getClass().getSimpleName();
                     String imagePath = "Ressources/images/" + typePiece.toLowerCase() + couleur + ".png";
                     ImageIcon icon = new ImageIcon(imagePath);
                     squares[x][y].setIcon(icon);
-
                 } else {
-                    // Si la case est vide, supprimer l'
+                    // Si la case est vide, supprimer l'icône
                     squares[x][y].setIcon(null);
                 }
             }
         }
         // Réinitialiser la variable priseEnPassantEffectuee après avoir mis à jour l'affichage
-    }
+        priseEnPassantEffectuee = false;
 
+    }
 }
