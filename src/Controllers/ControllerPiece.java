@@ -1,8 +1,5 @@
 package Controllers;
-import Models.Case;
-import Models.Piece;
-import Models.Plateau;
-import Models.Roi;
+import Models.*;
 
 public class ControllerPiece {
     public static boolean deplacerPiece(Plateau plateau, Piece piece, Case nouvelleCase) {
@@ -20,6 +17,8 @@ public class ControllerPiece {
                     ancienneCase.setPiece(null);
                     piece.setCurrentCase(nouvelleCase);
                     nouvelleCase.setPiece(piece);
+
+
                     return true; // Déplacement réussi
                 } else {
                     // La case de destination est occupée par une pièce de la même couleur ou contient un roi adverse, le déplacement n'est pas valide
