@@ -89,7 +89,7 @@ public class ViewsPlateau extends JFrame {
                                     if (temp == 1) {
                                         System.out.println("Piece : "+finalX);
                                         System.out.println("Piece : "+finalY);
-                                        plateau.getCase(finalX -1, finalY).setPiece(null);
+                                        plateau.getCase(finalX +1 , finalY).setPiece(null);
                                         Case passantCase = plateau.getCase(xtemp, ytemp);
                                         Piece passantPiece = passantCase.getPiece();
                                         Pion passantPion = (Pion) passantPiece;
@@ -171,19 +171,7 @@ public class ViewsPlateau extends JFrame {
                     String imagePath = "Ressources/images/" + typePiece.toLowerCase() + couleur + ".png";
                     ImageIcon icon = new ImageIcon(imagePath);
                     squares[x][y].setIcon(icon);
-                    if (priseEnPassantEffectuee && currentCase.getPiece() instanceof Pion && xFutur == x && yFutur == y) {
 
-                        // Si le pion currentCase est blanc alors faire ça squares[x+1][y].setIcon(null);
-                        if (currentCase.getPiece().getCouleur() == Couleur.BLANC) {
-
-                            priseEnPassantEffectuee = false;
-
-                        }else {
-                            squares[x-1][y].setIcon(null);
-                            priseEnPassantEffectuee = false;
-                        }
-
-                    }
                 } else {
                     // Si la case est vide, supprimer l'
                     squares[x][y].setIcon(null);
