@@ -76,4 +76,12 @@ public abstract class Piece implements Mouvement {
     protected boolean hasMoved() {
         return moved;
     }
+
+    protected boolean aBouge() {
+        return false;
+    }
+
+    protected boolean isHasMoved() {
+        return false;
+    }
 }

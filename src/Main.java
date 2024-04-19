@@ -16,6 +16,25 @@ import Controllers.ControllerPiece;
 import Controllers.ControllerPion;
 import Models.*;
 
+
+        if (isRoque) {
+            Case roiFuturePosition = plateau.getCase(nouvelleX, nouvelleY);
+            if (roiFuturePosition.getX() == 7 && roiFuturePosition.getY() == 1) { // Roque long
+                Case tourCase = plateau.getCase(7, 7);
+                tourCase.setPiece(null);
+                Case nouvelleTourCase = plateau.getCase(7, 4);
+                nouvelleTourCase.setPiece(new Tour(this.getCouleur(), nouvelleTourCase));
+                System.out.println("Roque long");
+            } else { // Roque court
+                Case tourCase = plateau.getCase(7, 0);
+                tourCase.setPiece(null);
+                Case nouvelleTourCase = plateau.getCase(7, 2);
+                nouvelleTourCase.setPiece(new Tour(this.getCouleur(), nouvelleTourCase));
+                System.out.println("Roque court");
+            }
+
+        } else {
+
 public class Main {
     public static void main(String[] args) {
         // Créer un nouveau plateau

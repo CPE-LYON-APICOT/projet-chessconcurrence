@@ -4,6 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 public class Plateau {
     private Case[][] cases;
+    private Case lastDoubleStepStart; // Case de départ du dernier pion ayant avancé de deux cases
+    private Case lastDoubleStepEnd; // Case d'arrivée du dernier pion ayant avancé de deux cases
+
+    // Méthode pour enregistrer le dernier double pas
+    public void setLastDoubleStep(Case start, Case end) {
+        this.lastDoubleStepStart = start;
+        this.lastDoubleStepEnd = end;
+    }
+
+    public Case getLastDoubleStepStart() {
+        return lastDoubleStepStart;
+    }
+
+    public Case getLastDoubleStepEnd() {
+        return lastDoubleStepEnd;
+    }
 
     public Plateau() {
         this.cases = new Case[8][8];
@@ -36,19 +52,17 @@ public class Plateau {
 
         // Initialisation des pièces pour les joueurs noirs
         cases[7][0].setPiece(new Tour(Couleur.BLANC, cases[7][0]));
-        cases[7][1].setPiece(new Cavalier(Couleur.BLANC, cases[7][1]));
-        cases[7][2].setPiece(new Fou(Couleur.BLANC, cases[7][2]));
+        //cases[7][1].setPiece(new Cavalier(Couleur.BLANC, cases[7][1]));
+        //cases[7][2].setPiece(new Fou(Couleur.BLANC, cases[7][2]));
+        //cases[7][3].setPiece(new Reine(Couleur.BLANC, cases[7][3]));
         cases[7][3].setPiece(new Roi(Couleur.BLANC, cases[7][3]));
-        cases[7][4].setPiece(new Reine(Couleur.BLANC, cases[7][4]));
-        cases[7][5].setPiece(new Fou(Couleur.BLANC, cases[7][5]));
+        //cases[7][5].setPiece(new Fou(Couleur.BLANC, cases[7][5]));
         cases[7][6].setPiece(new Cavalier(Couleur.BLANC, cases[7][6]));
         cases[7][7].setPiece(new Tour(Couleur.BLANC, cases[7][7]));
         // Initialisation des pions pour les joueurs noirs
         for (int i = 0; i < 8; i++) {
             cases[6][i].setPiece(new Pion(Couleur.BLANC, cases[6][i]));
         }
-        cases[4][4].setPiece(new Pion(Couleur.BLANC, cases[4][4]));
-
     }
 
     public void afficherPlateau() {
@@ -98,4 +112,5 @@ public class Plateau {
 
         return false;
     }
+
 }
