@@ -6,32 +6,31 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ViewsPlateau extends JFrame {
+public class ViewsPlateau extends JFrame implements Observer {
     private JPanel mainPanel;
+    private JLabel tourLabel;
     private JButton[][] squares;
     private Piece pieceSelectionnee;
-    private Plateau plateau;
+    private ObservablePlateau observablePlateau;
     private ArrayList<Case> casesPossibles;
-    private boolean tourBlanc = true;
 
-
-
-    private boolean priseEnPassantEffectuee = false;
-
-    public ViewsPlateau(Plateau plateau) {
-
-        this.plateau = plateau;
+    public ViewsPlateau(ObservablePlateau observablePlateau) {
+        this.observablePlateau = observablePlateau;
+        this.observablePlateau.addObserver(this);
         this.casesPossibles = new ArrayList<>();
 
-
-
         setTitle("Chess Board");
-        setSize(800, 800);
+        setSize(800, 850);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(8, 8));
+        mainPanel.setLayout(new BorderLayout());
+
+        JPanel boardPanel = new JPanel();
+        boardPanel.setLayout(new GridLayout(8, 8));
 
         squares = new JButton[8][8];
 
@@ -39,7 +38,7 @@ public class ViewsPlateau extends JFrame {
             for (int col = 0; col < 8; col++) {
                 squares[row][col] = new JButton();
                 squares[row][col].setBackground((row + col) % 2 == 0 ? Color.GREEN : Color.GRAY);
-                mainPanel.add(squares[row][col]);
+                boardPanel.add(squares[row][col]);
             }
         }
 
@@ -51,38 +50,20 @@ public class ViewsPlateau extends JFrame {
                 button.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        if (observablePlateau.isEchecEtMat()) {
+                            return; // Ne rien faire si le jeu est terminé
+                        }
 
-                        int xCurent = 0;
-                        Case clickedCase = plateau.getCase(finalX, finalY);
-
-
-
+                        Case clickedCase = observablePlateau.getPlateau().getCase(finalX, finalY);
                         Piece piece = clickedCase.getPiece();
 
-                        if (piece != null && ((tourBlanc && piece.getCouleur() == Couleur.BLANC) || (!tourBlanc && piece.getCouleur() == Couleur.NOIR))) {
-                            // Si la pièce cliquée appartient au joueur actuel et c'est son tour
+                        if (piece != null && ((observablePlateau.isTourBlanc() && piece.getCouleur() == Couleur.BLANC) || (!observablePlateau.isTourBlanc() && piece.getCouleur() == Couleur.NOIR))) {
                             pieceSelectionnee = piece;
                             highlightPossibleMoves(pieceSelectionnee);
                         } else if (pieceSelectionnee != null) {
-                            // Si une pièce est déjà sélectionnée et que la case cliquée est vide
-                            Case nouvelleCase = plateau.getCase(finalX, finalY);
-                            System.out.println("test "+finalX);
-                            System.out.println("test "+finalY);
+                            Case nouvelleCase = observablePlateau.getPlateau().getCase(finalX, finalY);
                             if (casesPossibles.contains(nouvelleCase)) {
-                                // Déplacer la pièce sélectionnée vers la nouvelle case
-                                xCurent = pieceSelectionnee.getCurrentCase().getX();
-                                boolean deplacementReussi = ControllerPiece.deplacerPiece(plateau, pieceSelectionnee, nouvelleCase);
-                                if (deplacementReussi) {
-
-
-
-
-
-                                    updateBoard(plateau);
-                                    tourBlanc = !tourBlanc; // Changer de tour après un déplacement réussi
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "Déplacement invalide", "Erreur", JOptionPane.ERROR_MESSAGE);
-                                }
+                                observablePlateau.deplacerPiece(pieceSelectionnee, nouvelleCase);
                                 resetHighlightedCases();
                                 pieceSelectionnee = null;
                             }
@@ -92,23 +73,42 @@ public class ViewsPlateau extends JFrame {
             }
         }
 
+        tourLabel = new JLabel("Tour actuel : Blanc", SwingConstants.CENTER);
+        tourLabel.setFont(new Font("Serif", Font.BOLD, 24));
+
+        mainPanel.add(tourLabel, BorderLayout.NORTH);
+        mainPanel.add(boardPanel, BorderLayout.CENTER);
         add(mainPanel);
         setVisible(true);
     }
 
     // Méthode pour mettre en évidence visuellement les cases possibles pour une pièce sélectionnée
     private void highlightPossibleMoves(Piece piece) {
-        // Réinitialiser les cases mises en évidence
         resetHighlightedCases();
+        Plateau plateau = observablePlateau.getPlateau();
 
         Case ancienneCase = piece.getCurrentCase();
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Case nouvelleCase = plateau.getCase(x, y);
                 if (piece.isMouvementValide(plateau, nouvelleCase)) {
-                    // Mettre en évidence la case possible
-                    squares[x][y].setBackground(Color.YELLOW);
-                    casesPossibles.add(nouvelleCase);
+                    // Simuler le déplacement
+                    Piece pieceOriginale = nouvelleCase.getPiece();
+                    Case caseActuelle = piece.getCurrentCase();
+                    caseActuelle.setPiece(null);
+                    nouvelleCase.setPiece(piece);
+                    piece.setCurrentCase(nouvelleCase);
+
+                    boolean enEchec = plateau.estEnEchec(piece.getCouleur());
+
+                    nouvelleCase.setPiece(pieceOriginale);
+                    caseActuelle.setPiece(piece);
+                    piece.setCurrentCase(caseActuelle);
+
+                    if (!enEchec) {
+                        squares[x][y].setBackground(Color.YELLOW);
+                        casesPossibles.add(nouvelleCase);
+                    }
                 }
             }
         }
@@ -119,34 +119,39 @@ public class ViewsPlateau extends JFrame {
         for (Case c : casesPossibles) {
             int x = c.getX();
             int y = c.getY();
-            squares[x][y].setBackground((x + y) % 2 == 0 ? Color.GREEN : Color.GRAY); // Couleur normale de la case
+            squares[x][y].setBackground((x + y) % 2 == 0 ? Color.GREEN : Color.GRAY);
         }
-        casesPossibles.clear(); // Effacer la liste des cases possibles
+        casesPossibles.clear();
     }
 
     // Méthode pour mettre à jour l'affichage du plateau
-    // Méthode pour mettre à jour l'affichage du plateau
-    public void updateBoard(Plateau plateau) {
+    @Override
+    public void update(Observable o, Object arg) {
+        Plateau plateau = observablePlateau.getPlateau();
+        updateBoard(plateau);
+        String tourActuel = observablePlateau.isTourBlanc() ? "Blanc" : "Noir";
+        tourLabel.setText("Tour actuel : " + tourActuel);
 
+        if (observablePlateau.isEchecEtMat()) {
+            String gagnant = observablePlateau.isTourBlanc() ? "Noir" : "Blanc";
+            JOptionPane.showMessageDialog(this, "Échec et mat ! Le joueur " + gagnant + " gagne.", "Échec et Mat", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public void updateBoard(Plateau plateau) {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 Case currentCase = plateau.getCase(x, y);
-                if (plateau.getCase(x, y).getPiece() != null)  {
-
-                    // Sinon, afficher l'icône normalement
+                if (currentCase.getPiece() != null) {
                     String couleur = currentCase.getPiece().getCouleur() == Couleur.BLANC ? "Blanc" : "Noir";
                     String typePiece = currentCase.getPiece().getClass().getSimpleName();
                     String imagePath = "Ressources/images/" + typePiece.toLowerCase() + couleur + ".png";
                     ImageIcon icon = new ImageIcon(imagePath);
                     squares[x][y].setIcon(icon);
-
                 } else {
-                    // Si la case est vide, supprimer l'
                     squares[x][y].setIcon(null);
                 }
             }
         }
-        // Réinitialiser la variable priseEnPassantEffectuee après avoir mis à jour l'affichage
     }
-
 }

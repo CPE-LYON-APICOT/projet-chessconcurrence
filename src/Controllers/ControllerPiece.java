@@ -6,7 +6,7 @@ import Models.Plateau;
 import Models.Couleur;
 
 public class ControllerPiece {
-    public static boolean deplacerPiece(Plateau plateau, Piece piece, Case nouvelleCase) {
+    public static int deplacerPiece(Plateau plateau, Piece piece, Case nouvelleCase) {
         System.out.println("Tentative de déplacement de " + piece.getClass().getSimpleName() + " de (" + piece.getCurrentCase().getX() + "," + piece.getCurrentCase().getY() + ") à (" + nouvelleCase.getX() + "," + nouvelleCase.getY() + ")");
 
         // Vérifier si le mouvement est valide
@@ -30,7 +30,7 @@ public class ControllerPiece {
 
                 if (enEchec) {
                     System.out.println("Déplacement invalide : met le roi en échec");
-                    return false;
+                    return -1; // Mouvement invalide
                 }
 
                 // Déplacer la pièce pour de vrai
@@ -42,20 +42,20 @@ public class ControllerPiece {
                 Couleur adversaire = piece.getCouleur() == Couleur.BLANC ? Couleur.NOIR : Couleur.BLANC;
                 if (plateau.estEchecEtMat(adversaire)) {
                     System.out.println("Échec et mat ! Le joueur " + piece.getCouleur() + " gagne.");
-                    // Fin de partie
-                    // Vous pouvez ajouter une logique supplémentaire pour gérer la fin de partie
+                    return 2; // Échec et mat
                 } else if (plateau.estEnEchec(adversaire)) {
                     System.out.println("Échec au roi " + adversaire);
+                    return 1; // Échec
                 }
 
-                return true; // Déplacement réussi
+                return 0; // Déplacement réussi
             } else {
                 System.out.println("Déplacement invalide : case occupée par une pièce de la même couleur ou roi adverse");
-                return false;
+                return -1; // Mouvement invalide
             }
         } else {
             System.out.println("Déplacement invalide : mouvement non autorisé pour la pièce");
-            return false;
+            return -1; // Mouvement invalide
         }
     }
 }

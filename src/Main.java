@@ -1,15 +1,19 @@
 
+import Models.ObservablePlateau;
 import Models.Plateau;
+import Models.SingletonPlateau;
 
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        Plateau plateau = new Plateau();
-        ViewsPlateau viewsPlateau = new ViewsPlateau(plateau);
+        Plateau plateau = SingletonPlateau.getInstance();
+        ObservablePlateau observablePlateau = new ObservablePlateau(plateau);
+        ViewsPlateau viewsPlateau = new ViewsPlateau(observablePlateau);
         viewsPlateau.updateBoard(plateau);
     }
 }
+
 
 /*
 import Controllers.ControllerPiece;
