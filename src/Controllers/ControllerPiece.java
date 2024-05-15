@@ -1,4 +1,5 @@
 package Controllers;
+
 import Models.Case;
 import Models.Piece;
 import Models.Plateau;
@@ -6,6 +7,8 @@ import Models.Couleur;
 
 public class ControllerPiece {
     public static boolean deplacerPiece(Plateau plateau, Piece piece, Case nouvelleCase) {
+        System.out.println("Tentative de déplacement de " + piece.getClass().getSimpleName() + " de (" + piece.getCurrentCase().getX() + "," + piece.getCurrentCase().getY() + ") à (" + nouvelleCase.getX() + "," + nouvelleCase.getY() + ")");
+
         // Vérifier si le mouvement est valide
         if (piece.isMouvementValide(plateau, nouvelleCase)) {
             // Vérifier si la case de destination est vide ou contient une pièce adverse

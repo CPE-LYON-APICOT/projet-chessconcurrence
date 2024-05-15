@@ -10,7 +10,7 @@ public abstract class Piece implements Mouvement {
     private Couleur couleur;
     private int id;
 
-    private boolean moved;
+    public boolean moved;
 
     @Override
     public boolean isMouvementValide(Plateau plateau, Case nouvelleCase) {
@@ -83,5 +83,13 @@ public abstract class Piece implements Mouvement {
 
     protected boolean isHasMoved() {
         return false;
+    }
+
+    public void deplacer(Plateau plateau, Case nouvelleCase) {
+        Case ancienneCase = this.getCurrentCase();
+        ancienneCase.setPiece(null);
+        nouvelleCase.setPiece(this);
+        this.setCurrentCase(nouvelleCase);
+        this.moved = true;
     }
 }

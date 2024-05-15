@@ -57,5 +57,14 @@ public class Tour extends Piece {
 
         return false; // Autres mouvements invalides
     }
-}
 
+    @Override
+    public void deplacer(Plateau plateau, Case nouvelleCase) {
+        System.out.println("Déplacement de la tour de (" + this.getCurrentCase().getX() + "," + this.getCurrentCase().getY() + ") à (" + nouvelleCase.getX() + "," + nouvelleCase.getY() + ")");
+        Case ancienneCase = this.getCurrentCase();
+        ancienneCase.setPiece(null);
+        nouvelleCase.setPiece(this);
+        this.setCurrentCase(nouvelleCase);
+        this.moved = true;
+    }
+}

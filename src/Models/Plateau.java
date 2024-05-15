@@ -187,4 +187,22 @@ public class Plateau {
         return true;
     }
 
+    public boolean caseEstSousAttaque(Couleur couleur, Case caseACheck) {
+        System.out.println("Vérification si la case (" + caseACheck.getX() + "," + caseACheck.getY() + ") est sous attaque");
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Case c = cases[i][j];
+                if (c.getPiece() != null && c.getPiece().getCouleur() != couleur) {
+                    if (c.getPiece().isMouvementValide(this, caseACheck)) {
+                        System.out.println("Case (" + caseACheck.getX() + "," + caseACheck.getY() + ") est attaquée par " + c.getPiece().getClass().getSimpleName() + " en (" + c.getX() + "," + c.getY() + ")");
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
+
 }
