@@ -54,21 +54,14 @@ public class Pion extends Piece {
         // Vérifier la prise en passant
         if (this.getCouleur() == Couleur.BLANC && nouvelleX - ancienneX == -1 && deplacementY == 1 ) {
             Case caseCote = plateau.getCase(ancienneX, nouvelleY);
-            Piece pieceCote = caseCote.getPiece();
-            if (pieceCote instanceof Pion && ((Pion) pieceCote).isDernierDeplacementDouble() && nouvelleCase.getPiece() == null && pieceCote.getCouleur() != this.getCouleur()) {
-                return true;
-            } else if (nouvelleCase.getPiece() != null && nouvelleCase.getPiece().getCouleur() != this.getCouleur()) {
+            if (nouvelleCase.getPiece() != null && nouvelleCase.getPiece().getCouleur() != this.getCouleur()) {
                 return true;
             }
         }
 
         if (this.getCouleur() == Couleur.NOIR && nouvelleX - ancienneX == 1 && deplacementY == 1 ) {
             Case caseCote = plateau.getCase(ancienneX, nouvelleY);
-            Piece pieceCote = caseCote.getPiece();
-            if (pieceCote instanceof Pion && ((Pion) pieceCote).isDernierDeplacementDouble() && nouvelleCase.getPiece() == null && pieceCote.getCouleur() != this.getCouleur()) {
-                return true;
-            }
-            else if (nouvelleCase.getPiece() != null && nouvelleCase.getPiece().getCouleur() != this.getCouleur()) {
+            if (nouvelleCase.getPiece() != null && nouvelleCase.getPiece().getCouleur() != this.getCouleur()) {
                 return true;
             }
         }
