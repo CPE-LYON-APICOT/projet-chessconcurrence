@@ -15,12 +15,7 @@ public class ViewsPlateau extends JFrame {
     private ArrayList<Case> casesPossibles;
     private boolean tourBlanc = true;
 
-    int temp = 0;
-    int xtemp = 0;
-    int ytemp = 0;
 
-    int xFutur = 0;
-    int yFutur = 0;
 
     private boolean priseEnPassantEffectuee = false;
 
@@ -60,11 +55,7 @@ public class ViewsPlateau extends JFrame {
                         int xCurent = 0;
                         Case clickedCase = plateau.getCase(finalX, finalY);
 
-                        System.out.println("feere "+finalX);
-                        System.out.println("ferer "+finalY);
 
-                        xFutur = finalX;
-                        yFutur = finalY;
 
                         Piece piece = clickedCase.getPiece();
 
@@ -86,30 +77,7 @@ public class ViewsPlateau extends JFrame {
 
 
 
-                                    if (temp == 1) {
-                                        System.out.println("Piece : "+finalX);
-                                        System.out.println("Piece : "+finalY);
-                                        plateau.getCase(finalX +1 , finalY).setPiece(null);
-                                        Case passantCase = plateau.getCase(xtemp, ytemp);
-                                        Piece passantPiece = passantCase.getPiece();
-                                        Pion passantPion = (Pion) passantPiece;
-                                        passantPion.setDernierDeplacementDouble(false);
-                                        ytemp = 0;
-                                        xtemp = 0;
-                                        temp = 0;
 
-                                        priseEnPassantEffectuee = true;
-                                    }
-                                    if (pieceSelectionnee instanceof Pion) {
-                                        Pion pion = (Pion) pieceSelectionnee;
-                                        if ((pion.getCouleur() == Couleur.BLANC && xCurent == 6 && pion.getCurrentCase().getX() == 4) || (pion.getCouleur() == Couleur.NOIR && xCurent == 1 && pion.getCurrentCase().getX() == 3)) {
-                                            temp = 1;
-                                            ytemp = pion.getCurrentCase().getY();
-                                            xtemp = pion.getCurrentCase().getX();
-                                            System.out.println("Pion en passant");
-                                            pion.setDernierDeplacementDouble(true);
-                                        }
-                                    }
                                     updateBoard(plateau);
                                     tourBlanc = !tourBlanc; // Changer de tour après un déplacement réussi
                                 } else {
