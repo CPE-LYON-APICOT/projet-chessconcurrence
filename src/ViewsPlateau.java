@@ -165,7 +165,7 @@ public class ViewsPlateau extends JFrame {
                 Case currentCase = plateau.getCase(x, y);
                 if (plateau.getCase(x, y).getPiece() != null)  {
 
-                        // Sinon, afficher l'icône normalement
+                    // Sinon, afficher l'icône normalement
                     String couleur = currentCase.getPiece().getCouleur() == Couleur.BLANC ? "Blanc" : "Noir";
                     String typePiece = currentCase.getPiece().getClass().getSimpleName();
                     String imagePath = "Ressources/images/" + typePiece.toLowerCase() + couleur + ".png";

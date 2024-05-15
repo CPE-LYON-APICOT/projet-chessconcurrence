@@ -1,8 +1,7 @@
 package Models;
 
 public class Case {
-    private int x;
-    private int y;
+    private int x, y;
     private Piece piece;
 
     public Case(int x, int y) {
@@ -19,11 +18,11 @@ public class Case {
         return y;
     }
 
-    public Piece getPiece() {
-        return piece;
-    }
-
     public void setPiece(Piece piece) {
         this.piece = piece;
+    }
+
+    public Piece getPiece() {
+        return piece;
     }
 }

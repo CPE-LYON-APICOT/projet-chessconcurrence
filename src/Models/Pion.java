@@ -50,6 +50,7 @@ public class Pion extends Piece {
         }
 
 
+
         // Vérifier la prise en passant
         if (this.getCouleur() == Couleur.BLANC && nouvelleX - ancienneX == -1 && deplacementY == 1 ) {
             Case caseCote = plateau.getCase(ancienneX, nouvelleY);
@@ -71,6 +72,7 @@ public class Pion extends Piece {
                 return true;
             }
         }
+
 
         // Condition spéciale pour le premier déplacement
         if ((ancienneX == 1 && this.getCouleur() == Couleur.NOIR || ancienneX == 6 && this.getCouleur() == Couleur.BLANC) && (nouvelleX - ancienneX == 2 * direction) && deplacementY == 0 && nouvelleCase.getPiece() == null) {

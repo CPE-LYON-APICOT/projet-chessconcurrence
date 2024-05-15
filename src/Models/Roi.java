@@ -37,6 +37,8 @@ public class Roi extends Piece{
         boolean isRoqueLong = estRoqueLong(plateau, nouvelleCase);
         boolean isRoqueCourt = estRoqueCourt(plateau, nouvelleCase);
 
+
+        /*
         if (isRoqueLong) {
             Case roiCase = this.getCurrentCase();
             Case tourCase = plateau.getCase(7, 7);
@@ -54,7 +56,8 @@ public class Roi extends Piece{
             System.out.println("Roque court");
             return (deplacementY >= 1 && deplacementY <= 2 && deplacementX == 0);
         }
-        else {
+
+         */
             // Le déplacement est valide si le roi se déplace d'une seule case dans n'importe quelle direction
             if ((deplacementX == 1 && deplacementY == 0) || (deplacementX == 0 && deplacementY == 1) ||
                     (deplacementX == 1 && deplacementY == 1)) {
@@ -65,7 +68,6 @@ public class Roi extends Piece{
             }
 
             return false;
-        }
     }
 
     private boolean estRoqueLong(Plateau plateau, Case nouvelleCase) {
