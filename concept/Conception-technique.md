@@ -64,8 +64,9 @@ La mise en place de l'interface graphique a été un autre point fort de notre p
 
 Et pour finir l'utilisation des design patterns pour structurer notre code et faciliter la maintenance et l'évolutivité de l'application sont des parties dont nous sommes fiers car ça nous a permisde mettre en place des solutions compliquées de manière simple et efficace comme l'affichage des changements de la couleur qui doit jouer et un chrnomètre fonctionnel.
 ### Faiblesses du code
+Manque d'optimisation dans certaines situations comme par exemple lors de l'initialisation du tableau nous avons placé case par case les pièces ou lors de l'identifaction des pièces, nous avons fait ceci a la main et nous aurions pu faire un enum ou autre chose pour optimiser.
 
-[C'est ici que vous me dites ce que vous savez que vous avez mal fait, expliquez pourquoi vous avez fait ce choix (manque de temps, manque de compétence, trop pénible à faire, etc.)]
+Cependant nous avons préfèrer finir le projet et mettre de coté ce petit problème pou éviter de perdre du temps dessus.
 
 ### Difficultés rencontrées
 
