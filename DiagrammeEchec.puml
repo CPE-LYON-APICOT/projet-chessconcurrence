@@ -1,0 +1,86 @@
+@startuml
+
+abstract class ChessGame {
+    -plateau: Plateau
+    +ChessGame()
+    +start()
+    +move()
+    +end()
+}
+
+class Joueur {
+    -nom: String
+    -couleur: String
+    +Joueur()
+    +getNom()
+    +setNom()
+    +getCouleur()
+    +setCouleur()
+}
+
+
+
+class Plateau{
+    -cases: Case[]
+    +Plateau()
+    +getCase()
+    +setCase()
+
+}
+
+
+
+abstract class Case {
+    -piece: Piece
+    +Case()
+    +getPiece()
+    +setPiece()
+}
+
+abstract class Piece implements Mouvement {
+    -couleur: String
+    -case: Case
+    -id: int
+    +Piece()
+    +getCouleur()
+    +setCouleur()
+    +getCase()
+    +setCase()
+    +getId()
+    +setId()
+}
+
+class Tour extends Piece {
+
+}
+
+class Cavalier extends Piece {
+
+}
+
+class Fou extends Piece {
+
+}
+
+class Roi extends Piece {
+
+}
+
+class Reine extends Piece {
+
+}
+
+class Pion extends Piece {
+
+}
+
+Interface Mouvement {
+    +isMouvementValide()
+}
+
+
+Joueur -o ChessGame
+Plateau -o ChessGame
+Piece -o Case
+Case -* Plateau
+@enduml
